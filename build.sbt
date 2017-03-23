@@ -7,7 +7,7 @@ lazy val twirl = project
     .in(file("."))
     .enablePlugins(PlayRootProject)
     .settings(
-      scalaVersion := scala210,
+      scalaVersion := scala212,
       crossScalaVersions := List(scalaVersion.value, scala211, scala212)
     )
     .aggregate(apiJvm, apiJs, parser, compiler)
@@ -16,7 +16,7 @@ lazy val api = crossProject
     .in(file("api"))
     .enablePlugins(PlayLibrary, Playdoc)
     .settings(
-      scalaVersion := scala210,
+      scalaVersion := scala212,
       crossScalaVersions := List(scalaVersion.value, scala211, scala212)
     )
     .settings(
@@ -35,7 +35,7 @@ lazy val parser = project
     .in(file("parser"))
     .enablePlugins(PlayLibrary)
     .settings(
-      scalaVersion := scala210,
+      scalaVersion := scala212,
       crossScalaVersions := List(scalaVersion.value, scala211, scala212)
     )
     .settings(
@@ -49,7 +49,7 @@ lazy val compiler = project
     .enablePlugins(PlayLibrary)
     .dependsOn(apiJvm, parser % "compile;test->test")
     .settings(
-      scalaVersion := scala210,
+      scalaVersion := scala212,
       crossScalaVersions := List(scalaVersion.value, scala211, scala212)
     )
     .settings(
@@ -75,7 +75,11 @@ lazy val plugin = project
         publishLocal.all(ScopeFilter(
           inDependencies(compiler)
         )).value
-      }
+      },
+      licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html")),
+      publishMavenStyle := false,
+      bintrayRepository := "sbt-plugins",
+      bintrayOrganization := Some("alwaysencrypted")
     )
 
 playBuildRepoName in ThisBuild := "twirl"
